@@ -12,7 +12,9 @@
   "scripts": {},
   "koishi": {
     "service": {
-      "implements": [ "broker" ]
+      "implements": [
+        "broker"
+      ]
     }
   },
   "keywords": [

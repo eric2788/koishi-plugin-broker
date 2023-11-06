@@ -2,7 +2,7 @@ import { Context, Schema } from 'koishi'
 
 import Broker, { ListenerFunc } from 'koishi-service-broker'
 import amqp, { Channel, ChannelWrapper } from 'amqp-connection-manager'
-import { IAmqpConnectionManager } from 'amqp-connection-manager/dist/types/AmqpConnectionManager'
+import { AmqpConnectionManagerOptions, IAmqpConnectionManager } from 'amqp-connection-manager/dist/types/AmqpConnectionManager'
 import { ConsumeMessage, Options } from 'amqplib'
 import { ConsumerOptions, PublishOptions } from 'amqp-connection-manager/dist/types/ChannelWrapper'
 
@@ -17,12 +17,32 @@ class AmqpBroker extends Broker {
   constructor(ctx: Context, config: AmqpBroker.Config) {
     super(ctx)
     this.config = config
-    this.connection = amqp.connect(config.urls)
-    this.connection.on('connect', () => {
-      this.logger.info('amqp broker connected')
+    this.logger.info('connecting to amqp broker: ', config.urls.join(', '))
+    this.connection = amqp.connect(config.urls, { ...config.connect_options} )
+    this.connection.on('connect', ({url}) => {
+      this.logger.info('amqp broker connected to ', url)
     })
-    this.connection.on('error', (err) => {
-      this.logger.error('amqp broker connect failed: ', err)
+    this.connection.on('connectFailed', ({ err, url }) => {
+      this.logger.error(`amqp broker connect failed to ${url}`)
+      this.logger.error(err)
+    })
+    this.connection.on('disconnect', ({ err }) => {
+      this.logger.error('amqp broker disconnected')
+      this.logger.error(err)
+    })
+    this.connection.on('blocked', ({ reason }) => {
+      this.logger.warn('amqp broker blocked: ', reason)
+    })
+    this.connection.on('unblocked', () => {
+      this.logger.info('amqp broker unblocked')
+    })
+    ctx.on('dispose', () => {
+      this.connection.close().then(() => {
+        this.logger.info('amqp broker closed')
+      }).catch(err => {
+        this.logger.error('amqp broker error while closing')
+        this.logger.error(err)
+      })
     })
   }
 
@@ -31,12 +51,14 @@ class AmqpBroker extends Broker {
     if (!channel) {
       const config = this.config
       channel = this.connection.createChannel({
-        json: true,
+        name: `koishi_${topic}`,
+        json: config.json,
         confirm: config.enable_ack,
+        publishTimeout: config.publish_timeout,
         setup: function (channel: Channel) {
           return Promise.all([
-            channel.assertQueue(topic, { durable: true, ...config.assert_queue_options }),
-            channel.assertExchange(config.exchange_name, config.exchange_type, { durable: true, ...config.assert_change_options }),
+            channel.assertQueue(topic, { ...config.assert_queue_options }),
+            channel.assertExchange(config.exchange_name, config.exchange_type, { ...config.assert_change_options }),
           ]);
         },
       })
@@ -81,7 +103,10 @@ namespace AmqpBroker {
     enable_ack: boolean,
     exchange_name: string,
     exchange_type: ExchangeType,
+    json: boolean,
+    publish_timeout: number,
 
+    connect_options?: AmqpConnectionManagerOptions,
     assert_change_options?: Options.AssertExchange,
     assert_queue_options?: Options.AssertQueue,
     consume_options?: ConsumerOptions,
@@ -89,7 +114,7 @@ namespace AmqpBroker {
   }
 
   export const Config: Schema<Config> = Schema.object({
-    urls: Schema.array(Schema.string().role('secret')).description('AMQP URL地址'),
+    urls: Schema.array(Schema.string()).description('AMQP URL地址'),
     enable_ack: Schema.boolean().default(false).description('是否启用ACK机制'),
     exchange_name: Schema.string().default('koishi').description('交换机名称'),
     exchange_type: Schema.union([
@@ -99,6 +124,8 @@ namespace AmqpBroker {
       Schema.const('fanout'),
       Schema.const('match'),
     ]).description('交换机类型, 请自行参阅amqp文档').default('topic'),
+    json: Schema.boolean().default(false).description('是否使用JSON序列化消息'),
+    publish_timeout: Schema.number().default(10000).description('发送消息超时时间'),
   })
 
 }
