@@ -57,7 +57,7 @@ namespace MqttBroker {
   }
 
   export const Config: Schema<Config> = Schema.object({
-    url: Schema.string().description('mqtt URL地址'),
+    url: Schema.string().description('mqtt URL地址').role('secret'),
   })
 
 }

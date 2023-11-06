@@ -2,13 +2,7 @@
   "files": [],
   "references": [
     {
-      "path": "./packages/mqtt"
-    },
-    {
       "path": "./packages/core"
-    },
-    {
-      "path": "./packages/amqp"
     }
   ]
 }

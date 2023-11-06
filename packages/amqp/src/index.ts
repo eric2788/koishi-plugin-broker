@@ -71,7 +71,7 @@ namespace AmqpBroker {
   }
 
   export const Config: Schema<Config> = Schema.object({
-    urls: Schema.array(Schema.string()).description('AMQP URL地址'),
+    urls: Schema.array(Schema.string().role('secret')).description('AMQP URL地址'),
     enable_ack: Schema.boolean().default(false).description('是否启用ACK机制'),
   })
 

@@ -24,7 +24,7 @@ abstract class Broker extends Service {
 
   abstract unsubscribe(topic: string): Promise<unknown>
 
-  async unscribes(topics: string[]): Promise<unknown> {
+  async unsubscribes(topics: string[]): Promise<unknown> {
     return Promise.all(topics.map(topic => this.unsubscribe(topic)))
   }
 
