@@ -1,5 +1,5 @@
 {
-  "name": "koishi-plugin-mqtt",
+  "name": "koishi-plugin-broker-mqtt",
   "description": "透过 mqtt 提供订阅发布服务",
   "version": "0.0.1",
   "main": "lib/index.js",
@@ -17,5 +17,8 @@
   ],
   "peerDependencies": {
     "koishi": "^4.15.4"
+  },
+  "dependencies": {
+    "mqtt": "^5.1.4"
   }
 }

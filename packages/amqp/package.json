@@ -1,5 +1,5 @@
 {
-  "name": "koishi-plugin-amqp",
+  "name": "koishi-plugin-broker-amqp",
   "description": "透过 amqp 提供订阅发布服务",
   "version": "0.0.1",
   "main": "lib/index.js",

@@ -37,12 +37,12 @@ class AmqpBroker extends Broker {
     return channel
   }
 
-  async subscribe(topic: string, callback: ListenerFunc): Promise<void> {
+  async subscribe(topic: string, callback: ListenerFunc): Promise<unknown> {
     const channelWrapper = this.accureChannel(topic)
-    channelWrapper.consume(topic, (msg: ConsumeMessage) => callback(msg.content, msg))
+    return channelWrapper.consume(topic, (msg: ConsumeMessage) => callback(msg.content, msg))
   }
 
-  async unsubscribe(topic: string): Promise<void> {
+  async unsubscribe(topic: string): Promise<unknown> {
     const channelWrapper = this.channels.get(topic)
     if (!channelWrapper) return
     return channelWrapper.cancel(topic)
@@ -51,7 +51,7 @@ class AmqpBroker extends Broker {
       })
   }
 
-  async publish(topic: string, data: any): Promise<void> {
+  async publish(topic: string, data: any): Promise<unknown> {
     const channelWrapper = this.accureChannel(topic)
     return channelWrapper.sendToQueue(topic, data).then(done => console.debug('sent: ', done, 'data: ', data))
   }

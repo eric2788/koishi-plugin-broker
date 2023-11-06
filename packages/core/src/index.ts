@@ -16,13 +16,25 @@ abstract class Broker extends Service {
     super(ctx, 'broker')
   }
 
-  abstract subscribe(topic: string, callback: ListenerFunc): Promise<void>
+  abstract subscribe(topic: string, callback: ListenerFunc): Promise<unknown>
 
-  abstract unsubscribe(topic: string): Promise<void>
+  async subscribes(topics: string[], callback: ListenerFunc): Promise<unknown> {
+    return Promise.all(topics.map(topic => this.subscribe(topic, callback)))
+  }
 
-  abstract publish(topic: string, data: any): Promise<void>
+  abstract unsubscribe(topic: string): Promise<unknown>
 
-  abstract close(): Promise<void>
+  async unscribes(topics: string[]): Promise<unknown> {
+    return Promise.all(topics.map(topic => this.unsubscribe(topic)))
+  }
+
+  abstract publish(topic: string, data: any): Promise<unknown>
+
+  async publishes(topic: string, datas: any[]): Promise<unknown> {
+    return Promise.all(datas.map(data => this.publish(topic, data)))
+  }
+
+  abstract close(): Promise<unknown>
 
 }
 
