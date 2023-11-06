@@ -13,15 +13,22 @@
   "keywords": [
     "chatbot",
     "koishi",
-    "plugin"
+    "service",
+    "broker",
+    "amqp"
   ],
+  "koishi": {
+    "service": {
+      "implements": [ "broker" ]
+    }
+  },
   "peerDependencies": {
     "koishi": "^4.15.4"
   },
   "dependencies": {
     "amqp-connection-manager": "^4.1.14",
     "amqplib": "^0.10.3",
-    "koishi-plugin-broker": "^0.0.1"
+    "koishi-service-broker": "^0.0.1"
   },
   "devDependencies": {
     "@types/amqplib": "^0.10.3"

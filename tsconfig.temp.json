@@ -2,7 +2,10 @@
   "files": [],
   "references": [
     {
-      "path": "./packages/core"
+      "path": "./external/test-broker"
+    },
+    {
+      "path": "./packages/mqtt"
     }
   ]
 }

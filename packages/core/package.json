@@ -1,5 +1,5 @@
 {
-  "name": "koishi-plugin-broker",
+  "name": "koishi-service-broker",
   "description": "基于 broker 的订阅发布服务",
   "version": "0.0.1",
   "main": "lib/index.js",
@@ -13,7 +13,8 @@
   "keywords": [
     "chatbot",
     "koishi",
-    "plugin"
+    "service",
+    "broker"
   ],
   "peerDependencies": {
     "koishi": "^4.15.4"

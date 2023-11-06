@@ -10,16 +10,23 @@
   ],
   "license": "MIT",
   "scripts": {},
+  "koishi": {
+    "service": {
+      "implements": [ "broker" ]
+    }
+  },
   "keywords": [
     "chatbot",
     "koishi",
-    "plugin"
+    "service",
+    "broker",
+    "mqtt"
   ],
   "peerDependencies": {
     "koishi": "^4.15.4"
   },
   "dependencies": {
-    "koishi-plugin-broker": "^0.0.1",
+    "koishi-service-broker": "^0.0.1",
     "mqtt": "^5.1.4"
   }
 }

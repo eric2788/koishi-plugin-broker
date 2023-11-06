@@ -1,5 +1,5 @@
 import { Context, Schema } from 'koishi'
-import Broker, { ListenerFunc } from 'koishi-plugin-broker'
+import Broker, { ListenerFunc } from 'koishi-service-broker'
 import mqtt from 'mqtt'
 
 class MqttBroker extends Broker {
@@ -11,7 +11,10 @@ class MqttBroker extends Broker {
     super(ctx)
     this.client = mqtt.connect(config.url)
     this.client.on('connect', () => {
-      ctx.logger('mqtt').info('mqtt broker connected')
+      this.logger.info('mqtt broker connected')
+    })
+    this.client.on('error', (err) => {
+      this.logger.error('mqtt broker connect failed: ', err)
     })
     this.client.on('message', (topic, message) => {
       const callback = this.callbackMap.get(topic)
