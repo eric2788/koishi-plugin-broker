@@ -19,7 +19,7 @@
   "keywords": [
     "chatbot",
     "koishi",
-    "service",
+    "plugin",
     "broker",
     "amqp"
   ],

@@ -1,6 +1,6 @@
 {
-  "name": "koishi-plugin-broker-mqtt",
-  "description": "透过 mqtt 提供订阅发布服务",
+  "name": "koishi-plugin-broker-redis",
+  "description": "透过 redis 提供订阅发布服务",
   "version": "0.0.1",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
@@ -28,13 +28,13 @@
     "koishi",
     "plugin",
     "broker",
-    "mqtt"
+    "redis"
   ],
   "peerDependencies": {
     "koishi": "^4.15.4"
   },
   "dependencies": {
     "koishi-service-broker": "^0.0.1",
-    "mqtt": "^5.1.4"
+    "redis": "^4.6.10"
   }
 }
