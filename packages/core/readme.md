@@ -8,6 +8,7 @@
 
 - [koishi-plugin-broker-mqtt](https://github.com/eric2788/koishi-plugin-broker/tree/master/packages/mqtt)
 - [koishi-plugin-broker-amqp](https://github.com/eric2788/koishi-plugin-broker/tree/master/packages/amqp)
+- [koishi-plugin-broker-redis](https://github.com/eric2788/koishi-plugin-broker/tree/master/packages/redis)
 
 ## 使用
 
