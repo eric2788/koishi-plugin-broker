@@ -52,19 +52,19 @@ class YourCustomBroker extends Broker {
   }
 
   async subscribe(topic: string, callback: ListenerFunc): Promise<unknown> {
-    // ,,, your subscribe logic
+    // ... your subscribe logic
   }
 
   async unsubscribe(topic: string): Promise<unknown> {
-     // ,,, your unsubscribe logic
+     // ... your unsubscribe logic
   }
 
   async publish(topic: string, data: any): Promise<unknown> {
-     // ,,, your publish logic
+     // ... your publish logic
   }
 
   async close(): Promise<void> {
-     // ,,, your close logic
+     // ... your close logic
   }
   
 }
