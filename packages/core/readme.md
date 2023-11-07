@@ -6,8 +6,8 @@
 
 ## 插件
 
-- [koishi-plugin-broker-mqtt](../mqtt/)
-- [koishi-plugin-broker-amqp](../amqp/)
+- [koishi-plugin-broker-mqtt](https://github.com/eric2788/koishi-plugin-broker/tree/master/packages/mqtt)
+- [koishi-plugin-broker-amqp](https://github.com/eric2788/koishi-plugin-broker/tree/master/packages/amqp)
 
 ## 使用
 
