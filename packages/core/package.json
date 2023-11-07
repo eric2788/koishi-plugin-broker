@@ -9,6 +9,12 @@
     "dist"
   ],
   "license": "MIT",
+  "author": "eric2788",
+  "homepage": "https://github.com/eric2788/koishi-service-broker",       
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eric2788/koishi-service-broker.git"
+  },
   "scripts": {},
   "keywords": [
     "chatbot",
